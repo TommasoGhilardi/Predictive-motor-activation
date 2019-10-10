@@ -7,8 +7,9 @@ The analysis is divided in two parts:
 - the second relative to the analysis during the observation adn rpediciton of actions
 
 Files:
-- Functions_##.m     = contain fucntion that will be called by the Preprocessing_##.m scripts.
-- Preprocessing_##.m = basic prerocessing and ICA of the EEG data 
-- Main_##.m          = extract log-normalized index of freequency power
-- Info_var.m         = contain general inforamtion valid both for Functions/Preprocessing/Main
-- trial_fun_##.m     = allow specific epochs segmentation
+- Functions_##.m                  = contain fucntion that will be called by the Preprocessing_##.m scripts.
+- Preprocessing_##.m              = basic prerocessing and ICA of the EEG data 
+- Main_##.m                       = extract log-normalized index of freequency power
+- Info_var.m                      = contain general inforamtion valid both for Functions/Preprocessing/Main
+- trial_fun_##.m                  = allow specific epochs segmentation
+- ActiCap_64Ch_DCC_customized.mat = custom file for electrode position
