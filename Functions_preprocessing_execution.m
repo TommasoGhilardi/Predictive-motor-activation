@@ -106,7 +106,7 @@ classdef Functions_preprocessing_execution
             result           = ft_freqanalysis(cfg, input);
         end
         
-        function [] = Plot_fft(Freq1,Freq2,square)
+        function [] = Plot_fft(Freq1,Freq2)
             data1   = Freq1.powspctrm;
             data2   = Freq2.powspctrm;
             x1      = Freq1.freq;
@@ -152,64 +152,23 @@ classdef Functions_preprocessing_execution
             Freq.powspctrm=Freq1.powspctrm-Freq2.powspctrm;
             [peaksY,peaksX,w,p]     = findpeaks(-mean(Freq.powspctrm(:,:)));
             xpeaks                  = Freq.freq(peaksX);
-            ind_peaks               = find(Freq.freq(peaksX)>7 & Freq.freq(peaksX)<13);
-
-            width                   = w(ind_peaks);
+            ind_peaks_mu            = find(Freq.freq(peaksX)>7 & Freq.freq(peaksX)<13);
+            ind_peaks_beta          = find(Freq.freq(peaksX)>12 & Freq.freq(peaksX)<30);
+            
+            width                   = w(ind_peaks_mu);
             xlabel('Frequency (Hz)');
             ylabel('absolute power (uV^2)');
             xlim([2.5 31]);
-            if square == 'yes'
-                x= xpeaks(ind_peaks)- width/2;
-                rectangle('Position',[x -7 width 15],'FaceColor',[0 0 0 0.1],'EdgeColor',[0 0 0 0.1]...
-                    ,'Curvature',0.1);
-            end
+            ylim([min(mean(Freq.powspctrm(:,:)))-0.5 max(mean(Freq.powspctrm(:,:)))+0.5]);
             plot(Freq.freq, mean(Freq.powspctrm(:,:)),'k',...
-                xpeaks(ind_peaks),-peaksY(ind_peaks),'ro','LineWidth',1);
-            ylim([-4 0.4]);
+                xpeaks(ind_peaks_mu),-peaksY(ind_peaks_mu),'ro',...
+                xpeaks(ind_peaks_beta),-peaksY(ind_peaks_beta),'bo','LineWidth',1);
+            
             legend('Execution-Baseline');
-            disp(['Peak at:  ', num2str(xpeaks(ind_peaks)),'Hz']);
-        end
-        
-        function [] = Saving_range(path)
-            %name
-            Sub =cell2table({path(1:length(path)-4)},'VariableNames',{'Sub'});
-            %freq
-            prompt      = {'What is the frequency peak: '};
-            dlgtitle    = 'Input';
-            dims        = [1 20];
-            answer      = inputdlg(prompt,dlgtitle,dims);
-            range       = str2num(char(answer{1}));
+            disp(['Peak at:  ', num2str(xpeaks(ind_peaks_mu)),'Hz']);
+            disp(['Peak at:  ', num2str(xpeaks(ind_peaks_beta)),'Hz']);
 
-            if exist('U:\Desktop\Baby_BRAIN\Projects\EEG_probabilities_adults\Data\Raw data\Neural\Range_freq.csv','file')==2
-                frq_range= readtable('Range_freq.csv');
-                if sum(ismember(frq_range(:,1),Sub)) >= 1
-                     dlgTitle    = 'User Question';
-                     dlgQuestion = 'Already done...override?';
-                     choice      = questdlg(dlgQuestion,dlgTitle,'Yes','No', 'Yes');
-                     if choice == "Yes"
-                         location=find(ismember(frq_range(:,1),Sub));
-                         frq_range([location],:)= [];
-                     end
-                end  
-                %add the columns
-                for x = 1:length(range)
-                   addition={table2cell(Sub), range(x)};
-                   frq_range=[frq_range;addition];
-                end
-                writetable(frq_range,'Range_freq.csv','Delimiter',',');
-                disp('SAVED')
-                
-            %crate the file if not existing    
-            elseif  exist('U:\Desktop\Baby_BRAIN\Projects\EEG_probabilities_adults\Data\Raw data\Neural\Range_freq.csv','file')==0
-                frq_range = table(table2cell(Sub),range);
-                frq_range.Properties.VariableNames ={'Sub','range'};
-                writetable(frq_range,'Range_freq.csv','Delimiter',',');
-                disp('CREATED')
-            else
-                f           = msgbox('Problem with the File', 'Error','error');
-                th          = findall(f, 'Type', 'Text');                   %get handle to text within msgbox
-                th.FontSize = 16;
-            end
         end
+              
     end
 end    

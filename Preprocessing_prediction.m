@@ -3,7 +3,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 info_var;
 FA= Functions_preprocessing_prediction;
-subject = Subjects(19).name;  % define the data path and its name 
+subject = Subjects(30).name;  % define the data path and its name 
 
 %% ========================% Action Prediction Preprocessing %======================= %%
 

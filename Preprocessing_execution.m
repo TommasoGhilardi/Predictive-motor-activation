@@ -3,7 +3,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 info_var;
 AF= Functions_preprocessing_execution;
-subject = Subjects(4).name;  % define the data path and its name 
+subject = Subjects(1).name;  % define the data path and its name 
 
 %% ========================% Action Execution %======================= %%
 
@@ -49,10 +49,8 @@ fft_base        = ft_selectdata(cfg, fft_ex);
 %% ========================% Differences 6-13 HZ %======================= %%
 
 %Plot
-AF.Plot_fft(fft_exec,fft_base,'noo')
-
-%% ========================% Save freq range %======================= %%
-AF.Saving_range(subject)
+AF.Plot_fft(fft_exec,fft_base)
+winopen(fullfile('\\CNAS.RU.NL\U262192\Desktop\Baby_BRAIN\Projects\EEG_probabilities_adults\Data\Raw data\Neural\Saved_steps\Execution', 'Range_freq.xlsx'));
 
 %% ========================% Clear for next subject %======================= %%
 clear
