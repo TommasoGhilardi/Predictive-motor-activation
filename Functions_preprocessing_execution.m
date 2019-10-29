@@ -120,27 +120,28 @@ classdef Functions_preprocessing_execution
             line_width  = 2;
 
             % Computing the mean and standard deviation of the data matrix
-            data_mean1  = mean(data1,1);
-            data_mean2  = mean(data2,1);
+            data_mean1  = mean(mean(data1,2));
+            data_mean2  = mean(mean(data2,2));
             data_std1   = std(data1,0,1);
             data_std2   = std(data2,0,1);
             % Type of error plot
-            error1      = (data_std1./sqrt(size(data1,1)));
-            error2      = (data_std2./sqrt(size(data2,1)));
+            error1      = (data_std1./sqrt(size(data1,2)));
+            error2      = (data_std2./sqrt(size(data2,2)));
+
 
             figure;
             a=subplot(2,1,1);
             hold on
             %first line
-            patch = fill([x1, fliplr(x1)], [data_mean1+error1, fliplr(data_mean1-error1)], blu_area);
+            patch = fill([x1, fliplr(x1)], [data_mean1(:,:)+error1(:,:), fliplr(data_mean1(:,:)-error1(:,:))], blu_area);
             set(patch, 'edgecolor', 'none');
             set(patch, 'FaceAlpha', alpha);
-            plott(1)=plot(x1, data_mean1,'color', blu_line,'LineWidth', line_width);
+            plott(1)=plot(x1, data_mean1(:,:),'color', blu_line,'LineWidth', line_width);
             %second line
-            patch = fill([x2, fliplr(x2)], [data_mean2+error2, fliplr(data_mean2-error2)], orange_area);
+            patch = fill([x2, fliplr(x2)], [data_mean2(:,:)+error2(:,:), fliplr(data_mean2(:,:)-error2(:,:))], orange_area);
             set(patch, 'edgecolor', 'none');
             set(patch, 'FaceAlpha', alpha);
-            plott(2)=plot(x2, data_mean2,'color', orange_line,'LineWidth', line_width);
+            plott(2)=plot(x2, data_mean2(:,:),'color', orange_line,'LineWidth', line_width);
             xlabel('Frequency (Hz)');
             ylabel('absolute power (uV^2)');
             legend(plott,{'Execution','Baseline'});
@@ -149,25 +150,24 @@ classdef Functions_preprocessing_execution
             subplot(2,1,2);
             hold on
             Freq=Freq1;
-            Freq.powspctrm=Freq1.powspctrm-Freq2.powspctrm;
-            [peaksY,peaksX,w,p]     = findpeaks(-mean(Freq.powspctrm(:,:)));
+            Freq.powspctrm=data_mean1(:,:)-data_mean2(:,:);
+            [peaksY,peaksX,w,p]     = findpeaks(-Freq.powspctrm);
             xpeaks                  = Freq.freq(peaksX);
             ind_peaks_mu            = find(Freq.freq(peaksX)>7 & Freq.freq(peaksX)<13);
             ind_peaks_beta          = find(Freq.freq(peaksX)>12 & Freq.freq(peaksX)<30);
-            
+
             width                   = w(ind_peaks_mu);
             xlabel('Frequency (Hz)');
             ylabel('absolute power (uV^2)');
             xlim([2.5 31]);
-            ylim([min(mean(Freq.powspctrm(:,:)))-0.5 max(mean(Freq.powspctrm(:,:)))+0.5]);
-            plot(Freq.freq, mean(Freq.powspctrm(:,:)),'k',...
-                xpeaks(ind_peaks_mu),-peaksY(ind_peaks_mu),'ro',...
-                xpeaks(ind_peaks_beta),-peaksY(ind_peaks_beta),'bo','LineWidth',1);
-            
+            ylim([min(Freq.powspctrm)-0.5 max(Freq.powspctrm)+0.5]);
+            plot(Freq.freq, Freq.powspctrm,'k',...
+            xpeaks(ind_peaks_mu),-peaksY(ind_peaks_mu),'ro',...
+            xpeaks(ind_peaks_beta),-peaksY(ind_peaks_beta),'bo','LineWidth',1);
+
             legend('Execution-Baseline');
             disp(['Peak at:  ', num2str(xpeaks(ind_peaks_mu)),'Hz']);
             disp(['Peak at:  ', num2str(xpeaks(ind_peaks_beta)),'Hz']);
-
         end
               
     end

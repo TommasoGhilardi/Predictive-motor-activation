@@ -60,6 +60,7 @@ classdef Functions_preprocessing_prediction
             % plot the components for visual inspection
             figure('units','normalized','outerposition',[0 0 1 1])
             cfg             = [];
+            cfg.marker      = 'labels';
             cfg.component   = 1:components;       % specify the component(s) that should be plotted
             cfg.layout      = cap; % specify the layout file that should be used for plotting
             cfg.comment     = 'no';
@@ -94,47 +95,34 @@ classdef Functions_preprocessing_prediction
         end
         
         function [] = Plot_bar(fix,low,medium1,medium2,high1,high2,det)
-            mean_elec=([mean(fix.powspctrm);...
-                mean(low.powspctrm);...
-                mean(medium1.powspctrm); mean(medium2.powspctrm);...
-                mean(high1.powspctrm); mean(high2.powspctrm);...
-                mean(det.powspctrm)]);
+            mean_power=[fix.powspctrm, low.powspctrm,medium1.powspctrm,medium2.powspctrm,...
+            high1.powspctrm,high2.powspctrm,det.powspctrm];
 
-            sem_elec=[std((fix.powspctrm))/sqrt(length(mean(log(fix.powspctrm))));...
-                std((low.powspctrm))/sqrt(length(mean(log(low.powspctrm))));...
-                std((medium1.powspctrm))/sqrt(length(mean(log(medium1.powspctrm))));...
-                std((medium2.powspctrm))/sqrt(length(mean(log(medium2.powspctrm))));...
-                std((high1.powspctrm))/sqrt(length(mean(log(high1.powspctrm))));...
-                std((high2.powspctrm))/sqrt(length(mean(log(high2.powspctrm))));...
-                 std((det.powspctrm))/sqrt(length(mean(log(det.powspctrm))))];
-
-            ax= det.freq;
-
-            color=[[0, 0.4470, 0.7410];[0.8500, 0.3250, 0.0980];[0.9290, 0.6940, 0.1250];...
-                [0.4940, 0.1840, 0.5560];[0.4660, 0.6740, 0.1880];[0.6350, 0.0780, 0.1840];...
-                [0.3010, 0.7450, 0.9330]];
-
-            legend_label={'Baseline', 'Low' , 'Medium1', 'Medium2' , 'High1', 'High2' , 'Determinsitic'};
+            XTick=[1,3,5,6,8,9,11];
 
             figure
-            rectangle('Position',[8 0 5 max(max(mean_elec))+4],'FaceColor',[0 0 0 0.1],'EdgeColor',[0 0 0 0.1]);
             hold on
-            for x = 1:7
-                patch = fill([ax, fliplr(ax)], [mean_elec(x,:)+sem_elec(x,:), fliplr(mean_elec(x,:)-sem_elec(x,:))], color(x,:));
-                set(patch, 'edgecolor', 'none');
-                set(patch, 'FaceAlpha', 0.2);
-                plot1(x) = plot(ax,mean_elec(x,:),'Color',color(x,:));
+            for x =1:length(mean_power)
+               h= bar(XTick(x),mean_power(x));
+            %    er = errorbar(XTick(x),mean_power(x),sem_power(x),'.');
+               er.Color= 'k';
+               if XTick(x)==1
+                   set(h,'FaceColor',[0, 0.4470, 0.7410]);
+               elseif XTick(x)<5
+                   set(h,'FaceColor',[0.8500, 0.3250, 0.0980]);
+               elseif XTick(x)<8
+                   set(h,'FaceColor',[0.9290, 0.6940, 0.1250]);
+               elseif XTick(x)<11
+                   set(h,'FaceColor',[0.4940, 0.1840, 0.5560]);
+               else
+                   set(h,'FaceColor',[0.4660, 0.6740, 0.1880]);
+               end
             end
-            
-            xlabel('Frequency (Hz)');
-            ylabel('absolute power (uV^2)');
-            xlim([2.5 31]);
-            ylim([0,max(max(mean_elec))+1])
 
-            [~, hobj, ~, ~] = legend(plot1,legend_label(),'FontSize',14);
-            hl = findobj(hobj,'type','line');
-            set(hl,'LineWidth',3);  
-            hold off
+            XTickLabel={'Baseline'; 'Low' ; 'Medium1'; 'Medium2' ; 'High1'; 'High2' ; 'Determinsitic'};
+            set(gca, 'XTick',XTick);
+            set(gca, 'XTickLabel', XTickLabel);
+
         end
         
     end

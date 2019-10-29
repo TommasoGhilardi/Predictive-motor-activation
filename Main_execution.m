@@ -10,21 +10,23 @@ orange_line = [236 112  22]./255;
 
 
 for x = 1:length(Subjects)
-    load(['Saved_steps\execution\FFT_ex_',Subjects(x).name(1:9),'.mat']);
-    
-    %selecting channels and freq
-    cfg = [];
-    cfg.channel= [channels.motor, channels.occipital];
-    cfg.frequency = 'all';
-    tot= ft_selectdata(cfg, fft_ex);
+    if not(ismember(Subjects(x).name(1:9),Rejected))
+        load(['Saved_steps\execution\FFT_ex_',Subjects(x).name(1:9),'.mat']);
 
-    if exist('db') ~= 1
-        db = tot; 
-    elseif exist('db') == 1
-        cfg=[];
-        db = ft_appendfreq(cfg,db,tot);
+        %selecting channels and freq
+        cfg = [];
+        cfg.channel= channels.motor;
+        cfg.frequency = 'all';
+        tot= ft_selectdata(cfg, fft_ex);
+
+        if exist('db') ~= 1
+            db = tot; 
+        elseif exist('db') == 1
+            cfg=[];
+            db = ft_appendfreq(cfg,db,tot);
+        end
+        clear fft_ex cfg x;
     end
-    clear fft_ex cfg x;
 end
 
 %% ========================% Division baseline and execution %======================= %%
@@ -74,8 +76,9 @@ set(plot_ex, 'FaceAlpha', 0.2);
 plott(2) = plot(baseline.freq(:), mean_ba(:),'color', orange_line,'LineWidth', 2);
 %legend
 xlabel('Frequency (Hz)');
-ylabel('absolute power (uV^2)');
+ylabel('uV^2');
 legend(plott,{'Execution','Baseline'});
+xlim([2.5 31]);
 
 % SUBPLOT 2 the difference
 subplot(2,1,2);
@@ -86,7 +89,7 @@ xpeaks                  = execution.freq(peaksX);
 ind_peaks_mu            = find(execution.freq(peaksX)>7 & execution.freq(peaksX)<12);
 ind_peaks_beta          = find(execution.freq(peaksX)>12 & execution.freq(peaksX)<30);
 xlabel('Frequency (Hz)');
-ylabel('absolute power (uV^2)');
+ylabel('uV^2');
 xlim([2.5 31]);
 ylim([min(mean_diff)-0.1, max(mean_diff)+0.1])
 
@@ -98,11 +101,11 @@ legend('Difference');
 
 % Writin the labels of the points
 for x = 1:length(ind_peaks_mu)
-    text(xpeaks(ind_peaks_mu(x)),-peaksY(ind_peaks_mu(x))-(peaksY(ind_peaks_mu(x))/100*50),num2str(xpeaks(ind_peaks_mu(x))))
+    text(xpeaks(ind_peaks_mu(x)),-peaksY(ind_peaks_mu(x))+(peaksY(ind_peaks_mu(x))/100*50),num2str(xpeaks(ind_peaks_mu(x))))
 end
 
 for x = 1:length(ind_peaks_beta)
-    text(xpeaks(ind_peaks_beta(x)),-peaksY(ind_peaks_beta(x))-(peaksY(ind_peaks_beta(x))/100*50),num2str(xpeaks(ind_peaks_beta(x))))
+    text(xpeaks(ind_peaks_beta(x)),-peaksY(ind_peaks_beta(x))+(peaksY(ind_peaks_beta(x))/100*50),num2str(xpeaks(ind_peaks_beta(x))))
 end
 
 %add square 

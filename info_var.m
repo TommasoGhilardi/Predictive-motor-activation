@@ -2,9 +2,9 @@
 %                        Variables to use  in the Scrip                          %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-cap_conf = 'ActiCap_64Ch_DCC_customized.mat';
+cap_conf = 'acticap-64ch-standard2.mat';
 Subjects = dir(['*.eeg']);
-
+Rejected = {'S_UnPr_01','S_UnPr_10','S_UnPr_18','S_UnPr_20','S_UnPr_25','S_UnPr_31'};
 %% Triggers ID
 Triggers.fixation_cross = 'S 50';
 
@@ -24,4 +24,4 @@ channels.occipital ={'Oz','O1','O2'};
 
 %% Frequency
 Freq_peak.mu = [9 11];
-Freq_peak.beta=[12 30];
+Freq_peak.beta=[16 18];

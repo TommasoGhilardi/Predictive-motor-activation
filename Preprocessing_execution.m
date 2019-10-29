@@ -3,7 +3,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 info_var;
 AF= Functions_preprocessing_execution;
-subject = Subjects(1).name;  % define the data path and its name 
+subject = Subjects(33).name;  % define the data path and its name 
 
 %% ========================% Action Execution %======================= %%
 
@@ -36,13 +36,13 @@ save(['Saved_steps\Execution\FFT_ex_',subject(1:9),'.mat'],'fft_ex')
 
 cfg = [];
 cfg.trials=find(fft_ex.trialinfo==100);
-cfg.avgoverrpt  ='yes';
+cfg.avgoverchan ='yes'; %averaging over the chan
 cfg.channel     = channels.motor;
 fft_exec        = ft_selectdata(cfg, fft_ex);
 
 cfg = [];
 cfg.trials      = find(fft_ex.trialinfo==80);
-cfg.avgoverrpt  ='yes';
+cfg.avgoverchan ='yes'; %averaging over the chan
 cfg.channel     = channels.motor;
 fft_base        = ft_selectdata(cfg, fft_ex);
 
@@ -50,9 +50,12 @@ fft_base        = ft_selectdata(cfg, fft_ex);
 
 %Plot
 AF.Plot_fft(fft_exec,fft_base)
-winopen(fullfile('\\CNAS.RU.NL\U262192\Desktop\Baby_BRAIN\Projects\EEG_probabilities_adults\Data\Raw data\Neural\Saved_steps\Execution', 'Range_freq.xlsx'));
 
 %% ========================% Clear for next subject %======================= %%
 clear
 clc
 
+            
+            
+            
+            
