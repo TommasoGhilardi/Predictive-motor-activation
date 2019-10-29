@@ -12,4 +12,3 @@ Files:
 - Main_##.m                       = extract log-normalized index of freequency power
 - Info_var.m                      = contain general inforamtion valid both for Functions/Preprocessing/Main
 - trial_fun_##.m                  = allow specific epochs segmentation
-- ActiCap_64Ch_DCC_customized.mat = custom file for electrode position
