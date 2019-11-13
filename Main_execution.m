@@ -78,7 +78,8 @@ plott(2) = plot(baseline.freq(:), mean_ba(:),'color', orange_line,'LineWidth', 2
 xlabel('Frequency (Hz)');
 ylabel('uV^2');
 legend(plott,{'Execution','Baseline'});
-xlim([2.5 31]);
+xlim([2.5 30.5]);
+ylim([min(mean_ba(:)-err_ba(:))-0.1, max(mean_ba(:)+err_ba(:))+0.1])
 
 % SUBPLOT 2 the difference
 subplot(2,1,2);
@@ -90,7 +91,7 @@ ind_peaks_mu            = find(execution.freq(peaksX)>7 & execution.freq(peaksX)
 ind_peaks_beta          = find(execution.freq(peaksX)>12 & execution.freq(peaksX)<30);
 xlabel('Frequency (Hz)');
 ylabel('uV^2');
-xlim([2.5 31]);
+xlim([2.5 30.5]);
 ylim([min(mean_diff)-0.1, max(mean_diff)+0.1])
 
 plot(execution.freq, mean_diff(:),'k',...
@@ -101,11 +102,11 @@ legend('Difference');
 
 % Writin the labels of the points
 for x = 1:length(ind_peaks_mu)
-    text(xpeaks(ind_peaks_mu(x)),-peaksY(ind_peaks_mu(x))+(peaksY(ind_peaks_mu(x))/100*50),num2str(xpeaks(ind_peaks_mu(x))))
+    text(xpeaks(ind_peaks_mu(x)),-peaksY(ind_peaks_mu(x))+0.1,num2str(xpeaks(ind_peaks_mu(x))),'FontSize',14)
 end
 
 for x = 1:length(ind_peaks_beta)
-    text(xpeaks(ind_peaks_beta(x)),-peaksY(ind_peaks_beta(x))+(peaksY(ind_peaks_beta(x))/100*50),num2str(xpeaks(ind_peaks_beta(x))))
+    text(xpeaks(ind_peaks_beta(x)),-peaksY(ind_peaks_beta(x))+0.1,num2str(xpeaks(ind_peaks_beta(x))),'FontSize',14)
 end
 
 %add square 

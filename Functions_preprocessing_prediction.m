@@ -20,7 +20,7 @@ classdef Functions_preprocessing_prediction
             cfg.demean      = 'yes';    
             result          = ft_preprocessing(cfg); % read raw data
             if isequal(result.label{end},'FP1')
-                result.label{end}='Fp1';
+                result.label{end} = 'Fp1';
             else
                 disp('ERROR FP1... CHECK PLEASE')
             end
@@ -32,13 +32,13 @@ classdef Functions_preprocessing_prediction
                 cfg = [];
                 cfg.metric      = 'kurtosis';  % use by default zvalue method
                 cfg.method      = 'summary'; % use by default summary method
-                result    = ft_rejectvisual(cfg,input);
+                result          = ft_rejectvisual(cfg,input);
                 
                 if what > 1
                     % Trial rejection
                     cfg = [];
                     cfg.method  = 'trial';
-                    result        = ft_rejectvisual(cfg,result);
+                    result      = ft_rejectvisual(cfg,result);
                 
                     if what > 2
                         % Rereference to average
@@ -75,7 +75,7 @@ classdef Functions_preprocessing_prediction
             %rejecting
             cfg             = [];
             cfg.component   = answer; % to be removed component(s)
-            result            = ft_rejectcomponent(cfg, componenti, input);
+            result          = ft_rejectcomponent(cfg, componenti, input);
             close
         end
         
@@ -89,7 +89,7 @@ classdef Functions_preprocessing_prediction
             cfg.pad          = 'maxperlen';
             cfg.padtype      = 'zero';
             cfg.channel      = channel;
-            cfg.keeptrials  = 'yes';
+            cfg.keeptrials   = 'yes';
             cfg.foi          = 3:1:30; % analysis 3 to 30 Hz in steps of 1 Hz
             result           = ft_freqanalysis(cfg, input);
         end
