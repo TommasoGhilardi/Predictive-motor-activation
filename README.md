@@ -10,5 +10,5 @@ Files:
 - Functions_##.m                  = contain fucntion that will be called by the Preprocessing_##.m scripts.
 - Preprocessing_##.m              = basic prerocessing and ICA of the EEG data 
 - Main_##.m                       = extract log-normalized index of freequency power
-- Info_var.m                      = contain general inforamtion valid both for Functions/Preprocessing/Main
+- Info_var.m                      = contain general information valid both for Functions/Preprocessing/Main
 - trial_fun_##.m                  = allow specific epochs segmentation
