@@ -3,7 +3,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 cap_conf = 'acticap-64ch-standard2.mat';
-Subjects = dir(['*.eeg']);
+
+data_dir = 'U:\Baby_BRAIN\Projects\EEG_probabilities_adults\Data\Raw data\Bids';
+output_dir = 'U:\Baby_BRAIN\Projects\EEG_probabilities_adults\Data\Raw data\Neural\Saved_steps';
+Subjects = dir([data_dir '\**\*.eeg']); 
+
 Rejected = {'S_UnPr_01','S_UnPr_10','S_UnPr_18','S_UnPr_25','S_UnPr_31'};
 
 %% Triggers ID
@@ -23,8 +27,10 @@ Triggers.execution2 = {'S 81','S 82','S 83','S 84','S 85','S 86'};
 channels.motor     = {'Cz','C3','C4'};
 channels.occipital = {'Oz','O1','O2'};
 
+single_channles.Cz ='CZ';
 single_channles.C4 ='C4';
 single_channles.C3 ='C3';
+single_channles.Oz ='Oz';
 single_channles.O1 ='O1';
 single_channles.O2 ='O2';
 
