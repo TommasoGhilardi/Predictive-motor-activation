@@ -1,27 +1,20 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                             MAIN EEG prediction                                %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-tf=0;
-while tf==0
-    list = {'Mean channels','Signle channles'};
-    [indx,tf] = listdlg('PromptString','What to extract ??:',...
-        'SelectionMode','single','ListSize',[150,70],...
-        'ListString',list);
-end
+
+% Set the directory to this script location
+p = matlab.desktop.editor.getActiveFilename;
+idcs = strfind(p,'\');
+cd(p(1:idcs(end)-1));
+
+info_var;
 
 %% checking what you would like to extract
-info_var;
-if indx==1
-    names_area = fieldnames(channels); %defining the area names
-    AREA = struct2cell(channels);
-elseif indx==2
-    names_area = fieldnames(single_channles);
-    AREA = struct2cell(single_channles);
-end
-
+names_area = fieldnames(single_channles);
+AREA = struct2cell(single_channles);
 
 [Subject,Probability,Area,Frequency,Power] = deal({'0'},0,{'0'},{'0'},0); %creating table to store subject data
-DF         = table(Subject,Probability,Area,Frequency,Power);
+DF = table(Subject,Probability,Area,Frequency,Power);
 
 %% LOOPS ON LOOOPS
 
@@ -37,8 +30,8 @@ for area = 1:length(names_area)
                         
         for x = 1:length(Subjects)
             %% Loop for subjects
-            if not(ismember(Subjects(x).name(1:9),Rejected)) %check if the subject is rejected
-                load(['Saved_steps\prediction\FFT_pred_',Subjects(x).name(1:9),'.mat'],'fft_pred');    
+            if not(ismember(Subjects(x).name(1:6),Rejected)) %check if the subject is rejected
+                load([output_dir '\prediction\FFT_pred_',Subjects(x).name(1:9),'.mat'],'fft_pred');    
                 display(Subjects(x).name(1:9))
                 
                 %log transform
@@ -178,15 +171,11 @@ for area = 1:length(names_area)
 end
 DF(1,:)=[]; %remove first empty line
 
-if indx==1
-    writetable(DF,['U:\Desktop\Baby_BRAIN\Projects\EEG_probabilities_adults\Data\Raw data\Neural\Saved_steps\Prediction\'...
-    'Clean_prediction.csv'],'Delimiter',',');
-elseif indx==2
-    writetable(DF,['U:\Desktop\Baby_BRAIN\Projects\EEG_probabilities_adults\Data\Raw data\Neural\Saved_steps\Prediction\'...
-    'Single_Channel_Clean_prediction.csv'],'Delimiter',',');
-end
+writetable(DF,[output_dir '\Prediction\Single_Channel_Clean_prediction.csv'],'Delimiter',',');
+
 
 display(['THE AVERAGE NUMBER OF TRIALS IS ' num2str(mean(trials))])
 if exist('Subject_err')
-display(['BAD SUBJECTS: ' Subject_err])
+    display(['BAD SUBJECTS: ' Subject_err])
 end
+

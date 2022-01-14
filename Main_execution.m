@@ -1,6 +1,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                              EEG Main execution                                %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Set the directory to this script location
+p = matlab.desktop.editor.getActiveFilename;
+idcs = strfind(p,'\');
+cd(p(1:idcs(end)-1));
 info_var;
 
 blu_area    = [128 193 219]./255;    % Blue theme
@@ -11,7 +16,7 @@ orange_line = [236 112  22]./255;
 
 for x = 1:length(Subjects)
     if not(ismember(Subjects(x).name(1:9),Rejected))
-        load(['Saved_steps\execution\FFT_ex_',Subjects(x).name(1:9),'.mat']);
+        load([output_dir '\execution\FFT_ex_',Subjects(x).name(1:6),'.mat']);
 
         %selecting channels and freq
         cfg = [];

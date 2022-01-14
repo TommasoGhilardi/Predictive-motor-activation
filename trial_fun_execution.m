@@ -1,4 +1,4 @@
-function [trl,event] = your_trialfun_name(cfg);
+function [trl,event] = trial_fun_execution(cfg)
     event = ft_read_event(cfg.dataset);
     diff=[];
     trl=[];

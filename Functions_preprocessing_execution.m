@@ -9,13 +9,6 @@ classdef Functions_preprocessing_execution
             events          = cfg_tr_def.event;
         end
         
-        function [cfg_tr_def,events] = Trialdef_baseline(path)
-            cfg             = [];
-            cfg.dataset     = path;
-            cfg.trialfun    = 'trial_fun_baseline';
-            cfg_tr_def      = ft_definetrial(cfg);   % read the list of the specific stimulus
-            events          = cfg_tr_def.event;
-        end
         
         function [result] = Preprocess(cfg,hp,lp)
             % read data and segment
