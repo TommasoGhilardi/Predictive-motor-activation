@@ -58,29 +58,29 @@ db[db$Level==4,]$Probability=75
 db[db$Level==5,]$Probability=75
 db[db$Level==6,]$Probability=100
 
-db[db$Level==0,]$Surprise=2.5
-db[db$Level==1,]$Surprise=2
-db[db$Level==2,]$Surprise=1
-db[db$Level==3,]$Surprise=1
-db[db$Level==4,]$Surprise=0.4
-db[db$Level==5,]$Surprise=0.4
-db[db$Level==6,]$Surprise=0
+db[db$Level==0,]$Surprise=-2.5
+db[db$Level==1,]$Surprise=-2
+db[db$Level==2,]$Surprise=-1
+db[db$Level==3,]$Surprise=-1
+db[db$Level==4,]$Surprise=-0.4
+db[db$Level==5,]$Surprise=-0.4
+db[db$Level==6,]$Surprise=-0
 
-db[db$Level==0,]$Entropy=2.58
-db[db$Level==1,]$Entropy=2.25
-db[db$Level==2,]$Entropy=1.50
-db[db$Level==3,]$Entropy=1
-db[db$Level==4,]$Entropy=1
-db[db$Level==5,]$Entropy=0.81
-db[db$Level==6,]$Entropy=0
+db[db$Level==0,]$Entropy=-2.58
+db[db$Level==1,]$Entropy=-2.25
+db[db$Level==2,]$Entropy=-1.50
+db[db$Level==3,]$Entropy=-1
+db[db$Level==4,]$Entropy=-1
+db[db$Level==5,]$Entropy=-0.81
+db[db$Level==6,]$Entropy=-0
 
-db[db$Level==0,]$Exploratory=2.5
-db[db$Level==1,]$Exploratory=1.5
-db[db$Level==2,]$Exploratory=0.5
-db[db$Level==3,]$Exploratory=1
-db[db$Level==4,]$Exploratory=0.3
-db[db$Level==5,]$Exploratory=0.3
-db[db$Level==6,]$Exploratory=0
+db[db$Level==0,]$Exploratory=-2.5
+db[db$Level==1,]$Exploratory=-1.5
+db[db$Level==2,]$Exploratory=-0.5
+db[db$Level==3,]$Exploratory=-1
+db[db$Level==4,]$Exploratory=-0.3
+db[db$Level==5,]$Exploratory=-0.3
+db[db$Level==6,]$Exploratory=-0
 
 
 summary(db) #check the dataframe
@@ -159,7 +159,7 @@ summary(Anova_entro.aov)
 check_model(Anova_entro.aov )
 
 anova(Anova_entro.aov) # F-test on the linear model
-estimate_contrasts(Anova_entro.aov, adjust = "Bonferroni")
+estimate_contrasts(Anova_entro.aov,contrast = c("Probability", "Entropy"), adjust = "Bonferroni")
 
 
 #### Plot

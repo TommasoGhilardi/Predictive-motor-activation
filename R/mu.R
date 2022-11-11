@@ -54,21 +54,21 @@ db[db$Level==4,]$Probability=75
 db[db$Level==5,]$Probability=75
 db[db$Level==6,]$Probability=100
 
-db[db$Level==0,]$Surprise=2.5
-db[db$Level==1,]$Surprise=2
-db[db$Level==2,]$Surprise=1
-db[db$Level==3,]$Surprise=1
-db[db$Level==4,]$Surprise=0.4
-db[db$Level==5,]$Surprise=0.4
-db[db$Level==6,]$Surprise=0
+db[db$Level==0,]$Surprise=-2.5
+db[db$Level==1,]$Surprise=-2
+db[db$Level==2,]$Surprise=-1
+db[db$Level==3,]$Surprise=-1
+db[db$Level==4,]$Surprise=-0.4
+db[db$Level==5,]$Surprise=-0.4
+db[db$Level==6,]$Surprise=-0
 
-db[db$Level==0,]$Entropy=2.58
-db[db$Level==1,]$Entropy=2.25
-db[db$Level==2,]$Entropy=1.50
-db[db$Level==3,]$Entropy=1
-db[db$Level==4,]$Entropy=1
-db[db$Level==5,]$Entropy=0.81
-db[db$Level==6,]$Entropy=0
+db[db$Level==0,]$Entropy=-2.58
+db[db$Level==1,]$Entropy=-2.25
+db[db$Level==2,]$Entropy=-1.50
+db[db$Level==3,]$Entropy=-1
+db[db$Level==4,]$Entropy=-1
+db[db$Level==5,]$Entropy=-0.81
+db[db$Level==6,]$Entropy=-0
 
 summary(db) #check the dataframe
 
@@ -134,7 +134,7 @@ descdist(Anova_entro$Power, discrete = FALSE)
 plot(fitdist(Anova_entro$Power, "norm"))
 
 ### The model
-Anova_entro.aov<-lmer(Power ~ Entropy : Probability +(1|Subject/Area), 
+Anova_entro.aov<-lmer(Power ~ Entropy * Probability +(1|Subject/Area), 
                       control=lmerControl(optimizer="bobyqa",optCtrl=list(maxfun=2e5)),data = Anova_entro)
 summary(Anova_entro.aov)
 
@@ -184,6 +184,7 @@ summary(Comparison.surp)
 Comparison.entro <-lmer(Power ~ Entropy +(1|Subject/Area),data=Comparison, REML = FALSE)
 check_model(Comparison.entro) #Check assumptions
 
+summary(Comparison.entro)
 
 
 ######  Comparison of the Linear Mixed Models 
