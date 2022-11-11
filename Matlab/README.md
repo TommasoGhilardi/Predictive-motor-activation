@@ -1,7 +1,7 @@
 # Matlab
 
 Code used to perform frequency analysis on adults EEG data.
-The script rely on [Fieltrip](http://www.fieldtriptoolbox.org/) toolbox to compute the analysis.
+The script rely on [Fieldtrip](http://www.fieldtriptoolbox.org/) toolbox to compute the analysis.
 
 The analysis is divided in two parts:
 - the first relative to the extraction of the sample specific mu and beta roladic rythms during an action execution task
